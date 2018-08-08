@@ -12,6 +12,7 @@ package com.raven.upload;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
  * 〈一句话功能简述〉<br> 
@@ -22,6 +23,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 1.0.0
  */
 @SpringBootApplication
+@ServletComponentScan // 注意要加上@ServletComponentScan注解，否则Servlet无法生效
 public class Application {
 
     public static void main(String[] args) {

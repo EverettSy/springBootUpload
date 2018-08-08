@@ -10,16 +10,16 @@
  */
 package com.raven.upload.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Null;
 import java.io.File;
-import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -30,13 +30,18 @@ import java.util.UUID;
  * @create 2018/7/24 0024
  * @since 1.0.0
  */
-@Controller
+@RestController
+@RequestMapping("/file")
+@Validated
+@Api(value = "文件上传UploadController",tags = {"文件上传"})
 public class UploadController {
     /**
      * 初始化上传文件界面,跳转到index.jsp
      *
      * @return
      */
+    @ApiOperation(value = "初始化上传界面",notes = "上传界面")
+    //@GetMapping(value = "/index")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "index";
@@ -48,6 +53,11 @@ public class UploadController {
      * @return
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    //@PostMapping(value = "/upload")
+    @ApiOperation(value = "上传单张图片接口",notes = "上传单张图片接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header",dataType = "string",name = "token",value = "访问凭证",required = true),
+    })
     public @ResponseBody
     String upload(HttpServletRequest request, MultipartFile file) {
 
@@ -96,7 +106,12 @@ public class UploadController {
         file.transferTo(serverFile);
     }
 
+    //@PostMapping(value = "/uploads")
     @RequestMapping(value = "/uploads",method = RequestMethod.POST)
+    @ApiOperation(value = "上传多张图片接口",notes = "上传多张图片接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header",dataType = "string",name = "token",value = "访问凭证",required = true),
+    })
     public @ResponseBody String uploads(HttpServletRequest request,MultipartFile[] file){
         try {
             //上传目录地址
